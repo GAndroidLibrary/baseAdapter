@@ -6,8 +6,8 @@ android {
 
     defaultConfig {
         applicationId "com.zhy.sample"
-        minSdkVersion 10
-        targetSdkVersion 23
+        minSdkVersion 14
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
     }
