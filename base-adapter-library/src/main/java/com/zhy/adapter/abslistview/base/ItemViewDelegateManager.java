@@ -17,6 +17,7 @@ public class ItemViewDelegateManager<T>
         return delegates.size();
     }
 
+
     public ItemViewDelegateManager<T> addDelegate(ItemViewDelegate<T> delegate)
     {
         int viewType = delegates.size();

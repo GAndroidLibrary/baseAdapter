@@ -35,9 +35,11 @@ public class MultiItemTypeAdapter<T> extends BaseAdapter {
 
     @Override
     public int getViewTypeCount() {
-        if (useItemViewDelegateManager())
+        if (useItemViewDelegateManager()){
             return mItemViewDelegateManager.getItemViewDelegateCount();
-        return super.getViewTypeCount();
+        }else {
+            return super.getViewTypeCount();
+        }
     }
 
     @Override
@@ -60,6 +62,8 @@ public class MultiItemTypeAdapter<T> extends BaseAdapter {
                     false);
             viewHolder = new ViewHolder(mContext, itemView, parent, position);
             viewHolder.mLayoutId = layoutId;
+
+//            seachal：当viewHoder创建后可以做一些事情，但是这里什么也没做,预留的方法
             onViewHolderCreated(viewHolder,viewHolder.getConvertView());
         } else
         {

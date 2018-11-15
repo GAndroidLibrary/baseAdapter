@@ -36,6 +36,7 @@ public abstract class CommonAdapter<T> extends MultiItemTypeAdapter<T>
         });
     }
 
+    @Override
     protected abstract void convert(ViewHolder viewHolder, T item, int position);
 
 }
