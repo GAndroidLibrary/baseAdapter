@@ -11,6 +11,10 @@ import com.zhy.adapter.abslistview.base.ItemViewDelegateManager;
 
 import java.util.List;
 
+/**
+ *
+ * @param <T>
+ */
 public class MultiItemTypeAdapter<T> extends BaseAdapter {
     protected Context mContext;
     protected List<T> mDatas;
@@ -35,9 +39,9 @@ public class MultiItemTypeAdapter<T> extends BaseAdapter {
 
     @Override
     public int getViewTypeCount() {
-        if (useItemViewDelegateManager()){
+        if (useItemViewDelegateManager()) {
             return mItemViewDelegateManager.getItemViewDelegateCount();
-        }else {
+        } else {
             return super.getViewTypeCount();
         }
     }
@@ -55,18 +59,16 @@ public class MultiItemTypeAdapter<T> extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ItemViewDelegate itemViewDelegate = mItemViewDelegateManager.getItemViewDelegate(mDatas.get(position), position);
         int layoutId = itemViewDelegate.getItemViewLayoutId();
-        ViewHolder viewHolder = null ;
-        if (convertView == null)
-        {
+        ViewHolder viewHolder = null;
+        if (convertView == null) {
             View itemView = LayoutInflater.from(mContext).inflate(layoutId, parent,
                     false);
             viewHolder = new ViewHolder(mContext, itemView, parent, position);
             viewHolder.mLayoutId = layoutId;
 
-//            seachal：当viewHoder创建后可以做一些事情，但是这里什么也没做,预留的方法
-            onViewHolderCreated(viewHolder,viewHolder.getConvertView());
-        } else
-        {
+            //            seachal annotation：当viewHoder创建后可以做一些事情，但是这里什么也没做,预留的方法
+            onViewHolderCreated(viewHolder, viewHolder.getConvertView());
+        } else {
             viewHolder = (ViewHolder) convertView.getTag();
             viewHolder.mPosition = position;
         }
@@ -80,8 +82,8 @@ public class MultiItemTypeAdapter<T> extends BaseAdapter {
         mItemViewDelegateManager.convert(viewHolder, item, position);
     }
 
-    public void onViewHolderCreated(ViewHolder holder , View itemView )
-    {}
+    public void onViewHolderCreated(ViewHolder holder, View itemView) {
+    }
 
     @Override
     public int getCount() {
