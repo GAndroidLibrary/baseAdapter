@@ -186,5 +186,92 @@ mListView.setAdapter(new CommonAdapter<String>(this, R.layout.item_list, mDatas)
 * [https://github.com/ragunathjawahar/simple-section-adapter](https://github.com/ragunathjawahar/simple-section-adapter)
 
     `SectionAdapter`对其进行了参考。
+    
+    
+
+## seachal 理解注释
+### 核心原理
+核心原理是使用getItemViewType（），
+
+   原理： https://blog.csdn.net/wanghao200906/article/details/41693859
+   
+   但是 baseAdapter 进行了封装，不需要自己写代码定义 viewType,
+### 源码分析   
+1.ItemViewDelegateManager:   
+
+```Java
+  public ItemViewDelegateManager<T> addDelegate(ItemViewDelegate<T> delegate) {
+        //        sechal annotation: viewType从0开始
+        int viewType = delegates.size();
+        if (delegate != null) {
+            delegates.put(viewType, delegate);
+            viewType++;
+        }
+        return this;
+    }
+```
+ > addDelegate（）-> delegates.put() 的时候记录了index
 
 
+```Java
+  public int getItemViewType(T item, int position) {
+        int delegatesCount = delegates.size();
+        //          sechal annotation:  根据索引从大向小。
+        for (int i = delegatesCount - 1; i >= 0; i--) {
+            ItemViewDelegate<T> delegate = delegates.valueAt(i);
+            //             seachal annotation:  如果代理item 需要的ViewType和delegate的ViewType匹配，则返回此 viewType值（也就是SparseArrayCompat key）
+            if (delegate.isForViewType(item, position)) {
+                //          seachal annotation: 如果return语句行不被执行，就会抛出数据与代理不匹配异常，
+                return delegates.keyAt(i);// 
+            }
+        }
+        //
+        throw new IllegalArgumentException(
+                "No ItemViewDelegate added that matches position=" + position + " in data source");
+    }
+```
+> getItemViewType() -> delegates.keyAt(i)
+使用 index值作为 viewType值。
+
+
+
+
+
+2.ChatAdapter  使用的时候:
+```Java       
+       addItemViewDelegate(new MsgSendItemDelagate());
+       addItemViewDelegate(new MsgComingItemDelagate());               
+```
+根据上面（1.ItemViewDelegateManager:）的分析，就有两个viewType 值(0，1).
+
+3.渲染
+
+
+```Java
+ public void convert(ViewHolder holder, T item, int position) {
+        int delegatesCount = delegates.size();
+        for (int i = 0; i < delegatesCount; i++) {
+            ItemViewDelegate<T> delegate = delegates.valueAt(i);
+
+            if (delegate.isForViewType(item, position)) {
+                delegate.convert(holder, item, position);
+                return;
+            }
+        }
+        throw new IllegalArgumentException(
+                "No ItemViewDelegateManager added that matches position=" + position + " in data source");
+    }
+``` 
+> for 循环中遍历了所有的viewType值, 然后遇到isForViewType（）返回值为true的情况，就去执行delegate.convert（）.这样就找到了 viewType对应的convert（），
+
+
+
+
+     
+     
+     
+     
+     
+<!--```
+BaseRecyclerViewAdapterHelper
+```-->
