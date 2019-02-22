@@ -30,7 +30,7 @@ public class ItemViewDelegateManager<T> {
 
 
     public ItemViewDelegateManager<T> addDelegate(ItemViewDelegate<T> delegate) {
-        //        sechal annotation: viewType从0开始
+        //        seachal annotation: viewType从0开始
         int viewType = delegates.size();
         if (delegate != null) {
             delegates.put(viewType, delegate);
@@ -80,7 +80,7 @@ public class ItemViewDelegateManager<T> {
             ItemViewDelegate<T> delegate = delegates.valueAt(i);
             //             seachal annotation:  如果代理item 需要的ViewType和delegate的ViewType匹配，则返回此 viewType值（也就是SparseArrayCompat key）
             if (delegate.isForViewType(item, position)) {
-                //          seachal annotation: 如果return语句行不被执行，就会抛出不数据与代理不匹配异常，
+                //          seachal annotation: 如果return语句行不被执行，就会抛出数据与代理不匹配异常，
                 return delegates.keyAt(i);
             }
         }

@@ -1,4 +1,4 @@
-package com.zhy.sample.adapter.lv;
+package com.zhy.sample.adapter.lvtype;
 
 import com.zhy.adapter.abslistview.ViewHolder;
 import com.zhy.adapter.abslistview.base.ItemViewDelegate;
@@ -8,7 +8,7 @@ import com.zhy.sample.bean.ChatMessage;
 /**
  * Created by zhy on 16/6/22.
  */
-public class MsgSendItemDelagate implements ItemViewDelegate<ChatMessage> {
+public class MsgSendItemDelagate1 implements ItemViewDelegate<ChatMessage> {
 
     @Override
     public int getItemViewLayoutId() {
@@ -17,7 +17,9 @@ public class MsgSendItemDelagate implements ItemViewDelegate<ChatMessage> {
 
     @Override
     public boolean isForViewType(ChatMessage item, int position) {
-        return !item.isComMeg();
+
+
+        return ChatMessage.RECIEVE_END ==item.getViewType();
     }
 
     @Override

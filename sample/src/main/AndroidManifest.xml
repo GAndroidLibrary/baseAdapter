@@ -28,6 +28,10 @@
             android:name=".MultiItemRvActivity"
             android:label="@string/title_activity_multi_item_rv" >
         </activity>
+        <activity
+            android:name=".MultiItemListViewUserTypeActivity"
+            android:label="MultiItemListViewUserTypeActivity" >
+        </activity>
     </application>
 
 </manifest>
